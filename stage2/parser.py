@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from rich import print
 from lex import *
-from hoc1_ast import *
+from hoc_ast import *
 
 
 """
