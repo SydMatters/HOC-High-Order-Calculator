@@ -1,0 +1,18 @@
+list ::= list \n
+         list expr \n
+        list asgn \n
+
+asgn :: = VAR '=' expr
+
+expr ::= NUMBER
+          VAR
+          asgn
+          BLTIN ( expr )
+          expr + expr
+          expr - expr
+          expr * expr
+          expr / expr
+          expr ^ expr
+          ( expr )
+          '-' expr
+          '+' expr
