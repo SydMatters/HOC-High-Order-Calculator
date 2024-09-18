@@ -75,14 +75,9 @@ class Parser:
     """
     list = []
     
-    while self._accept('NEWLINE'):
-      pass
-    
     list.append(self.expr())
     
     while True:
-      if self._accept('NEWLINE'):
-        pass
       
       if self.next_tok == None:
         break
