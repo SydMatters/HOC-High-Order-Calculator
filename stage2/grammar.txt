@@ -1,6 +1,8 @@
 list ::= list \n
          list expr \n
+         list asgn \n
 
+asgn :: = VAR '=' expr
 expr ::= NUMBER
           VAR
           VAR '=' expr
