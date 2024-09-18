@@ -1,0 +1,13 @@
+list ::= list \n
+         list expr \n
+
+expr ::= NUMBER
+          VAR
+          VAR '=' expr
+          expr + expr
+          expr - expr
+          expr * expr
+          expr / expr
+          ( expr )
+          '-' expr
+          '+' expr

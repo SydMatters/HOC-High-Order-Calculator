@@ -53,15 +53,6 @@ class Node:
   
   
 """
-Clase Statement
-Inherits from Node
-
-An abstract class
-"""
-@dataclass
-class Statement(Node):
-  pass
-"""
 Expression class
 Inherits from Node
 

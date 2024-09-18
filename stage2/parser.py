@@ -37,24 +37,47 @@ class Parser:
   
   def _expect(self, type):
     if not self._accept(type):
-      raise SyntaxError(f"Expected {type} but got {self.next_tok.type}")
-  
+      raise SyntaxError(f'Expected {type} but got {self.next_tok.type}') 
   #Each of the methods below parse a different part of the grammar
   def expr(self):
     """
     expr ::= NUMBER
-            | '(' expr ')'
-            | expr '+' expr
-            | expr '-' expr
-            | expr '*' expr
-            | expr '/' expr
+              VAR
+              VAR '=' expr
+              expr + expr
+              expr - expr
+              expr * expr
+              expr / expr
+              ( expr )
+              '-' expr
+              '+' expr
     """
     
+    if self._accept('-') or self._accept('+'):
+      oper = self.tok.value
+      operand = self.factor()
+      uni = Unary(oper, operand)
+      if self._accept('='):
+        expr = self.expr()
+        return Assignment(uni, expr)
+      return uni
+    
+    if self._accept('VAR'):
+      var = Variable(self.tok.value)
+      if self._accept('='):
+        expr = self.expr()
+        return Assignment(var, expr)
+      return var
+      
     left = self.factor()
+    
     while self._accept('+') or self._accept('-') or self._accept('*') or self._accept('/') or self._accept('%'):
       oper = self.tok.value
       rigth = self.factor()
+      if oper == '/' and isinstance(rigth, Number) and rigth.value == 0:
+        raise ValueError("Division by zero")
       left = Binary(oper, left, rigth)
+      
     return left
   
   def factor(self):
@@ -65,17 +88,19 @@ class Parser:
     
     elif self._accept('NUMBER'):
       return Number(float(self.tok.value))
+    elif self._accept('VAR'):
+      return Variable(self.tok.value)
     elif self._accept('('):
       expr = self.expr()
       self._expect(')')
       return Parentheses(expr)
     else:
-      raise SyntaxError(f"Expected NUMBER or '(' but got {self.next_tok.type}")
+      raise SyntaxError(f"Expected NUMBER, VAR or '(' but got {self.next_tok.type}")
 
   def list(self):
     """
-    list ::= expr NEWLINE
-            list expr NEWLINE
+    list ::= list \n
+            list expr \n
     """
     list = []
     
@@ -103,9 +128,12 @@ if __name__ == '__main__':
   lexer = Lexer()
   parser = Parser()
   data = """
-  - (1 +
-  2) * 3
-  4 % 5
+  x = y = z = 1/(2 * 5)
+
+  a = 4 - 5 - (-20)
+  
+  x = (5 / 7) - 3 * 4 + 5 
+
   """
   tokens = lexer.tokenize(data)
   for token in tokens:

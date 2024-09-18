@@ -1,3 +1,4 @@
+from __future__ import annotations
 from dataclasses import dataclass
 from typing import Union
 from rich import print
@@ -51,16 +52,6 @@ class Node:
   def accept(self, v: Visitor):
     return v.visit(self) 
   
-  
-"""
-Clase Statement
-Inherits from Node
-
-An abstract class
-"""
-@dataclass
-class Statement(Node):
-  pass
 """
 Expression class
 Inherits from Node
@@ -71,7 +62,22 @@ An abstract class
 class Expression (Node):
   pass
 
+"""
+Variable class
+Inherits from Expression
+Attributes:
+  name : str. The name of the variable
+"""
+@dataclass
+class Variable (Expression):
+  name: str
 
+
+@dataclass
+class Assignment (Expression):
+  var: Variable
+  expr: Expression 
+  
 #Instructions---------------------------------------------------
 
 """
@@ -163,6 +169,20 @@ class MakeDot(Visitor):
   def name(self):
     self.sequence += 1 #Increments the sequence
     return f'n{self.sequence}'
+  
+  def visit(self, a : Assignment):
+    name = self.name()
+    self.dot.node(name, label = '=')
+    var = a.var.accept(self)
+    expr = a.expr.accept(self)
+    self.dot.edge(name, var)
+    self.dot.edge(name, expr)
+    return name
+  
+  def visit(self, v : Variable):
+    name = self.name()
+    self.dot.node(name, label= f'{v.name}', shape = 'ellipse', color = 'blue') #Creates a node with the name of the Variable node
+    return name
     
   def visit(self, n : Number):
     name = self.name() #Obtains the name of the sequence
@@ -192,7 +212,7 @@ class MakeDot(Visitor):
   
   def generate_dot(self):
     self.dot.save('hoc_ast.dot') #Save the dot file
-    self.dot.render('hoc_ast', format = 'png', view = True)
+    #self.dot.render('hoc_ast', format = 'png', view = True)
     return self.dot.source
   
   

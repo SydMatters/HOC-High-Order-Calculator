@@ -30,6 +30,7 @@ class Lexer(sly.Lexer):
   # List of regular expression rules. (name, pattern)
   tokens = [
     (r'\s+', None),
+    (r'[a-z]',                      lambda s, tok: Token('VAR', tok)),  
     (r'\d+(\.\d+)?([Ee][+-]?\d+)?', lambda s, tok: Token('NUMBER', tok)),
     (r'%',                          lambda s, tok: Token('%', tok)),
     (r'\+',                         lambda s, tok: Token('+', tok)),
@@ -38,6 +39,7 @@ class Lexer(sly.Lexer):
     (r'/',                          lambda s, tok: Token('/', tok)),
     (r'\(',                         lambda s, tok: Token('(', tok)),
     (r'\)',                         lambda s, tok: Token(')', tok)),
+    (r'=',                          lambda s, tok: Token('=', tok)),
     (r'.',                          lambda s, tok: print(f"Illegal Character: '{tok}'")),
   ]
   

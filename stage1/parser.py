@@ -103,9 +103,7 @@ if __name__ == '__main__':
   lexer = Lexer()
   parser = Parser()
   data = """
-  - (1 +
-  2) * 3
-  4 % 5
+  x = 2+2*3/4-5
   """
   tokens = lexer.tokenize(data)
   for token in tokens:

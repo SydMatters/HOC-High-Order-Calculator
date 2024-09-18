@@ -1,0 +1,25 @@
+digraph hoc_ast {
+	node [fillcolor=lightblue fontcolor=black shape=box style=filled]
+	edge [arrowhead=none]
+	n1 [label="="]
+	n2 [label=x color=blue shape=ellipse]
+	n3 [label="-" color=green shape=circle]
+	n4 [label="/" color=green shape=circle]
+	n5 [label="*" color=green shape=circle]
+	n6 [label="+" color=green shape=circle]
+	n7 [label=1.0]
+	n6 -> n7 [label=left]
+	n8 [label=2.0]
+	n6 -> n8 [label=right]
+	n5 -> n6 [label=left]
+	n9 [label=3.0]
+	n5 -> n9 [label=right]
+	n4 -> n5 [label=left]
+	n10 [label=4.0]
+	n4 -> n10 [label=right]
+	n3 -> n4 [label=left]
+	n11 [label=5.0]
+	n3 -> n11 [label=right]
+	n1 -> n2
+	n1 -> n3
+}
