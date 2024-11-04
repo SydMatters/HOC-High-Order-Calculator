@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Union 
+from typing import Union
 from rich import print
 from multimethod import multimeta
 

@@ -1,0 +1,10 @@
+assignment := expression = expression
+list := list \n | list assignment  \n | list expression \n 
+expression := term {(+|-) term}
+term := factor {(*|/|^|%) factor}
+factor := NUMBER | (expression) | function | variable
+function := FUNCT(expression)
+variable := VAR
+FUNCT := sin | cos | atan | sqrt | log | exp | abs | log10
+NUMBER := [0-9]+
+VAR := [a-zA-Z]+
